@@ -47,5 +47,5 @@ export const logQuerySchema = Joi.object({
   severity: Joi.string().trim().max(100).optional(),
   status: Joi.string().trim().max(100).optional(),
   startDate: Joi.date().iso().optional(),
-  endDate: Joi.date().iso().min(Joi.ref('startDate')).optional(),
+  endDate: Joi.date().iso().optional(),
 }).options({ allowUnknown: false, stripUnknown: true });
