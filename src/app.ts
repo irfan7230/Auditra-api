@@ -37,7 +37,7 @@ app.use(
 const rawOrigins = process.env.ALLOWED_ORIGINS || '';
 const allowedOrigins = rawOrigins
   .split(',')
-  .map((o) => o.trim())
+  .map((o) => o.trim().replace(/\/$/, '')) // Strip trailing slashes to prevent CORS mismatches
   .filter(Boolean);
 
 const corsOrigin =
