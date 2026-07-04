@@ -13,7 +13,7 @@ async function bootstrap(): Promise<void> {
   try {
     await connectDB();
 
-    const server = app.listen(PORT, () => {
+    const server = app.listen(PORT, '0.0.0.0', () => {
       logger.info(`Auditra API ready`, {
         port: PORT,
         env: process.env.NODE_ENV ?? 'development',
