@@ -11,6 +11,9 @@ const PORT = Number(process.env.PORT) || 5000;
 
 async function bootstrap(): Promise<void> {
   try {
+    const envKeys = Object.keys(process.env).filter(k => k.startsWith('MONGO_') || k.startsWith('NODE_') || k === 'PORT');
+    logger.info(`Bootstrapping with env keys present: ${envKeys.join(', ')}`);
+
     const server = app.listen(PORT, '0.0.0.0', () => {
       logger.info(`Auditra API ready`, {
         port: PORT,
