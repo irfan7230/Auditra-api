@@ -11,14 +11,21 @@ const PORT = Number(process.env.PORT) || 5000;
 
 async function bootstrap(): Promise<void> {
   try {
-    await connectDB();
-
     const server = app.listen(PORT, '0.0.0.0', () => {
       logger.info(`Auditra API ready`, {
         port: PORT,
         env: process.env.NODE_ENV ?? 'development',
         pid: process.pid,
       });
+    });
+
+    // Start database connection after the server is already listening
+    // This ensures Railway healthchecks don't fail if Atlas is slow
+    connectDB().catch((err) => {
+      logger.error('Initial MongoDB connection failed, but server is running', {
+        error: err instanceof Error ? err.message : err,
+      });
+      // We do not exit here — Mongoose will keep trying to reconnect
     });
 
     const shutdown = (signal: string): void => {
