@@ -7,6 +7,10 @@ import logger from '../utils/logger';
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/auditra';
 
+if (process.env.NODE_ENV === 'production' && (!process.env.MONGO_URI || process.env.MONGO_URI.includes('localhost'))) {
+  logger.error('CRITICAL: MONGO_URI is not set or is using localhost in production!');
+}
+
 const CONNECTION_OPTIONS = {
   maxPoolSize: 50,        // support up to 50 concurrent connections (important for bulk ops)
   minPoolSize: 10,
